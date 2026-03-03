@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Recommender Ecommerce</title>
+</head>
+<body>
+    <h1>Product List</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - ₱{{ product.price }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>All Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - ₱{{ product.price }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_product' %}">Add New Product</a>
+
+    <h1>Recommended Products</h1>
+    <ul>
+        {% for product in recommendations %}
+            <li>{{ product.name }} - ₱{{ product.price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
