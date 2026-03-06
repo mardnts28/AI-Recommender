@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenShop 🌿 — Home</title>
+   <link rel="stylesheet" href="{% static 'store/css/shop.css' %}">
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <a href="{% url 'home' %}" class="brand">
+    <div class="brand-icon">🌿</div>
+    <span class="brand-name">GreenShop</span>
+  </a>
+  <ul class="nav-links">
+    <li>
+      <a href="{% url 'home' %}" class="active">
+        🏠 <span class="nav-label">Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'product_list' %}">
+        🛒 <span class="nav-label">Products</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'add_product' %}">
+        ✦ <span class="nav-label">Add Product</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-wrapper">
+  <div class="card">
+
+    <!-- Hero -->
+    <div class="hero">
+      <span class="hero-emoji">🤖</span>
+      <h1 class="hero-title">Find your <span>perfect</span> product</h1>
+      <p class="hero-sub">Type anything and let AI find the best matches for you!</p>
+
+      <form method="GET" action="{% url 'home' %}">
+        <div class="search-box">
+          <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            placeholder="e.g. wireless earbuds, running shoes..."
+            autofocus
+          >
+          <button type="submit" class="btn-primary">🔍 <span class="nav-label">Search</span></button>
+        </div>
+      </form>
+      <p class="search-hint">✨ Powered by Gemini AI</p>
+    </div>
+
+    <!-- Results -->
+    {% if query %}
+      <div class="results-section">
+
+        {% if recommendations %}
+          <div class="results-label">✨ AI Recommendations</div>
+          <p class="results-query">Showing results for <strong>"{{ query }}"</strong> — {{ recommendations|length }} match{{ recommendations|length|pluralize:"es" }} found</p>
+
+          <ul class="product-grid">
+            {% for item in recommendations %}
+              <li class="product-card">
+                <span class="product-name">{{ item.product.name }}</span>
+                <span class="product-price">₱{{ item.product.price }}</span>
+                {% if item.product.description %}
+                  <span class="product-desc">{{ item.product.description|truncatechars:60 }}</span>
+                {% endif %}
+                <span class="match-badge">✦ {{ item.score }} tag match{{ item.score|pluralize:"es" }}</span>
+                {% if item.product.tags %}
+                  <div class="tag-row">
+                    {% for tag in item.product.tags %}
+                      <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            No products matched <strong>"{{ query }}"</strong>
+            <p>Try a different keyword or <a href="{% url 'add_product' %}" style="color:var(--green-main); font-weight:800;">add the product</a> first!</p>
+          </div>
+        {% endif %}
+
+      </div>
+    {% else %}
+      <!-- Default state -->
+      <div class="empty-state">
+        <div class="empty-icon">🛍️</div>
+        Start searching to get AI-powered recommendations!
+        <p>Or browse <a href="{% url 'product_list' %}" style="color:var(--green-main); font-weight:800;">all products</a></p>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenShop 🌿 — Add Product</title>
+   <link rel="stylesheet" href="{% static 'store/css/shop.css' %}">
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <a href="{% url 'home' %}" class="brand">
+    <div class="brand-icon">🌿</div>
+    <span class="brand-name">GreenShop</span>
+  </a>
+  <ul class="nav-links">
+    <li>
+      <a href="{% url 'home' %}">
+        🏠 <span class="nav-label">Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'product_list' %}">
+        🛒 <span class="nav-label">Products</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'add_product' %}" class="active">
+        ✦ <span class="nav-label">Add Product</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-wrapper">
+  <div class="card">
+
+    <h1 class="page-title">
+      Add Product
+      <span class="title-badge">New</span>
+    </h1>
+    <p class="page-subtitle">Fill in the details — AI will auto-generate tags for you! 🤖✨</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">
+          ✦ Add Product
+        </button>
+      </div>
+    </form>
+
+    <a href="{% url 'product_list' %}" class="btn-back">
+      ← Back to Products
+    </a>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenShop 🌿 — Products</title>
+   <link rel="stylesheet" href="{% static 'store/css/shop.css' %}">
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <a href="{% url 'home' %}" class="brand">
+    <div class="brand-icon">🌿</div>
+    <span class="brand-name">GreenShop</span>
+  </a>
+  <ul class="nav-links">
+    <li>
+      <a href="{% url 'home' %}">
+        🏠 <span class="nav-label">Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'product_list' %}" class="active">
+        🛒 <span class="nav-label">Products</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'add_product' %}">
+        ✦ <span class="nav-label">Add Product</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-wrapper">
+  <div class="card">
+
+    <div class="section-header">
+      <h1 class="page-title">🛒 All Products</h1>
+      <a href="{% url 'add_product' %}" class="btn-primary" style="font-size:0.88rem; padding:10px 22px;">
+        ✦ Add New
+      </a>
+    </div>
+    <p class="page-subtitle">{{ products|length }} product{{ products|length|pluralize }} in your store</p>
+
+    {% if products %}
+      <ul class="product-grid">
+        {% for product in products %}
+          <li class="product-card">
+            <span class="product-name">{{ product.name }}</span>
+            <span class="product-price">₱{{ product.price }}</span>
+            {% if product.description %}
+              <span class="product-desc">{{ product.description|truncatechars:70 }}</span>
+            {% endif %}
+            {% if product.tags %}
+              <div class="tag-row">
+                {% for tag in product.tags %}
+                  <span class="tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        No products yet!
+        <p><a href="{% url 'add_product' %}" style="color:var(--green-main); font-weight:800;">Add your first product →</a></p>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+</body>
+</html>
